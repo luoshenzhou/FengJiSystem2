@@ -2,6 +2,8 @@ package com.haozhi.machinestatu.fengjisystem.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -9,7 +11,10 @@ import com.haozhi.machinestatu.fengjisystem.R;
 import com.haozhi.machinestatu.fengjisystem.adapter.TotalDevActivity_Adapter;
 import com.haozhi.machinestatu.fengjisystem.base.base_activity.Base_TitleBar_Activity;
 import com.haozhi.machinestatu.fengjisystem.titlebar.TitleBar;
+import com.haozhi.machinestatu.fengjisystem.utils.DataUtil;
+import com.haozhi.machinestatu.fengjisystem.utils.DateUtil;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,7 +42,7 @@ public class TableDataActivity extends Base_TitleBar_Activity {
     @Bind(R.id.id_pl_root)
     PanelListLayout panelListLayout;
     //列标题
-    private String[] rowTitle = new String[]{"测点位置", "安装方式", "传感器选择", "日期", "数据"};
+    private String[] rowTitle = new String[]{"测点位置", "安装方式","日期", "数据"};
     private TotalDevActivity_Adapter myTotalAdapter;
 
 
@@ -66,14 +73,13 @@ public class TableDataActivity extends Base_TitleBar_Activity {
     protected boolean leftButton() {
         return true;
     }
-
+    List<Map<String,String>> listData=new ArrayList<>();
     private void initData() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
         Random random=new Random();
         int  itemCount=rowTitle.length+1;
         int nextInt = getCeDian().size();
-        List<Map<String,String>> listData=new ArrayList<>();
         for (int i = 0; i < nextInt; i++) {//多少行
             Map<String, String> map = new HashMap<>();
             for (int j = 0; j < itemCount; j++) {//多少列
@@ -83,10 +89,8 @@ public class TableDataActivity extends Base_TitleBar_Activity {
                     map.put(j+"",getCeDian().get(i));
                 }else if(j==2){
                     map.put(j+"",getInStallStyle().get(i));
-                }else if(j==3){
-                    map.put(j+"",getChuanGanQi().get(i));
                 } else {
-                    map.put((j) + "", (random.nextFloat()*100)+"");
+                    map.put((j) + "", DataUtil.getPointDataByFloat(random.nextFloat() * 5 + 24));
                 }
             }
             listData.add(map);
@@ -99,19 +103,22 @@ public class TableDataActivity extends Base_TitleBar_Activity {
             List<Integer> list=new ArrayList<>();
             list.add(300);
             list.add(150);
-            list.add(300);
-            list.add(300);
+            list.add(500);
             list.add(150);
             list.add(150);
             //设置每一列的宽度
             myTotalAdapter.setcolumnWidth(list);
         } else {
-            myTotalAdapter.getColumnAdapter().notifyDataSetChanged();
-            ArrayAdapter adapter = (ArrayAdapter) lv_content.getAdapter();
-            myTotalAdapter.setData(listData);
-            adapter.setNotifyOnChange(true);
-            adapter.notifyDataSetChanged();
+            updateAdapter();
         }
+    }
+
+    private void updateAdapter() {
+        myTotalAdapter.getColumnAdapter().notifyDataSetChanged();
+        ArrayAdapter adapter = (ArrayAdapter) lv_content.getAdapter();
+        myTotalAdapter.setData(listData);
+        adapter.setNotifyOnChange(true);
+        adapter.notifyDataSetChanged();
     }
 
     public List<String> getCeDian(){
@@ -153,4 +160,67 @@ public class TableDataActivity extends Base_TitleBar_Activity {
         return list;
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startReadData();
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            changeData();
+            updateAdapter();
+        }
+    };
+
+    Random random=new Random();
+    private void changeData() {
+        int  itemCount=rowTitle.length+1;
+        int size = listData.get(0).size();
+        //Map<String, String> map = listData.get(size - 1);
+        /*Map<String, String> changeMap = new HashMap<>();
+        for (Map.Entry<String,String> entry:map.entrySet()){
+            changeMap.put(entry.getKey(),(random.nextFloat()*5+24+""));
+        }
+        listData.set(size-1,changeMap);*/
+        for (int i=0;i<listData.size();i++){
+            Map<String, String> map = listData.get(i);
+            String key = (itemCount - 1) + "";
+            map.put(key, DataUtil.getPointDataByFloat(random.nextFloat() * 5 + 24));
+        }
+    }
+
+    Timer timer;
+    public void startReadData() {
+        timer = new Timer();
+        final TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.sendEmptyMessage(0);
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                timer.scheduleAtFixedRate(timerTask, 1000, 1000);
+            }
+        }).start();
+    }
+
+    public void stopReadData() {
+        if (timer!=null){
+            timer.purge();
+            timer.cancel();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopReadData();
+    }
 }

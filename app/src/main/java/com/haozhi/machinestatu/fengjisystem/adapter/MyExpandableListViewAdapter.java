@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -24,7 +25,6 @@ public class MyExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     private static final String TAG = "MyExpandableList";
     private List<TitleName> groupData;
-    private int[] image;
     private Context context;
     private Handler handler;
 
@@ -60,13 +60,14 @@ public class MyExpandableListViewAdapter extends BaseExpandableListAdapter {
             convertView = View.inflate(context, R.layout.expandaview_group_title_layout, null);
             viewHolder = new ViewHolder();
             viewHolder.ex_textView_title = (TextView) convertView.findViewById(R.id.ex_group_title_name);
+            viewHolder.im_logo = (ImageView) convertView.findViewById(R.id.im_sys_logo);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        int haveData=0;
-
-        viewHolder.ex_textView_title.setText(groupData.get(groupPosition).getGroupTitleName());
+        TitleName titleName = groupData.get(groupPosition);
+        viewHolder.im_logo.setImageResource(titleName.getImg());
+        viewHolder.ex_textView_title.setText(titleName.getGroupTitleName());
         return convertView;
     }
 
@@ -114,15 +115,20 @@ public class MyExpandableListViewAdapter extends BaseExpandableListAdapter {
             convertView = View.inflate(context, R.layout.expandaview_group_data_layout, null);
             viewHolder = new ViewHolder();
             viewHolder.ex_textView_data = (TextView) convertView.findViewById(R.id.ex_group_data_name);
+            viewHolder.im_statue= (ImageView) convertView.findViewById(R.id.im_statue);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //在这里加上要比较的东西，用来做判断，然后去修改textView的字体的颜色，并且需要设定一个值，在点击的时候不
         //做任何处理，只是提示没有数据
-        viewHolder.ex_textView_data.setTextColor(Color.BLACK);
+        viewHolder.ex_textView_data.setTextColor(Color.GRAY);
         Log.e(TAG, "iscontain childPosition" + childPosition);
-
+        if (childPosition%3==0){
+            viewHolder.im_statue.setImageResource(R.drawable.statue_green);
+        }else {
+            viewHolder.im_statue.setImageResource(R.drawable.statue_red);
+        }
         viewHolder.ex_textView_data.setText(groupData.get(groupPosition).getGroupData().get(childPosition).getDataTitle());
         return convertView;
     }
@@ -138,6 +144,7 @@ public class MyExpandableListViewAdapter extends BaseExpandableListAdapter {
     class ViewHolder {
         TextView ex_textView_data;
         TextView ex_textView_title;
-
+        ImageView im_statue;
+        ImageView im_logo;
     }
 }

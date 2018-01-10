@@ -23,11 +23,12 @@
             android:weightSum="8">
 
             <ExpandableListView
+                android:background="@null"
                 android:id="@+id/expandableListView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:groupIndicator="@drawable/expandablelistviewselector"
+                android:groupIndicator="@null"
                 />
         </LinearLayout>
     </LinearLayout>

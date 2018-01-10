@@ -3,11 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#ffffff"
     >
-    <include layout="@layout/titlebar_activity"/>
+    <com.haozhi.machinestatu.fengjisystem.titlebar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>/>
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="380dp" />
+    <LinearLayout
+        android:id="@+id/ll_dayMsg"
+        android:visibility="gone"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当天历史数据"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/tv_msg"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sdsadasdf"
+            />
+    </LinearLayout>
 
 </LinearLayout>

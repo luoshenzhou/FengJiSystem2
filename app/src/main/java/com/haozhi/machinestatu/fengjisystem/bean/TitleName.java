@@ -7,15 +7,25 @@ import java.util.List;
  */
 public class TitleName {
 
-    public TitleName(String groupTitleName, List<GroupDataBean> groupData) {
+    public TitleName(String groupTitleName,int img, List<GroupDataBean> groupData) {
         this.groupTitleName = groupTitleName;
         this.groupData = groupData;
+        this.img=img;
     }
 
     /**
      * groupTitleName : 风机系统分组标题
      * groupData : [{"dataTitle":"风机系统分组子标题1","data":1},{"dataTitle":"风机系统分组子标题2","data":1}]
      */
+    private int img;
+
+    public int getImg() {
+        return img;
+    }
+
+    public void setImg(int img) {
+        this.img = img;
+    }
 
     private String groupTitleName;
     private List<GroupDataBean> groupData;

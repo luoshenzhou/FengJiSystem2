@@ -13,6 +13,7 @@ import com.haozhi.machinestatu.fengjisystem.base.base_activity.Base_TitleBar_Act
 import com.haozhi.machinestatu.fengjisystem.bean.TitleName;
 import com.haozhi.machinestatu.fengjisystem.bottom.BottomPop;
 import com.haozhi.machinestatu.fengjisystem.bottom.BottomPopListener;
+import com.haozhi.machinestatu.fengjisystem.lineChart.HistoryLineChartActivity;
 import com.haozhi.machinestatu.fengjisystem.titlebar.TitleBar;
 import com.haozhi.machinestatu.fengjisystem.utils.ToastUtil;
 
@@ -93,7 +94,7 @@ public class SystemCenterActivity extends Base_TitleBar_Activity {
         });
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+            public boolean onChildClick(ExpandableListView parent, View v, final int groupPosition, final int childPosition, long id) {
 
                 new BottomPop(SystemCenterActivity.this, new BottomPopListener() {
 
@@ -102,9 +103,13 @@ public class SystemCenterActivity extends Base_TitleBar_Activity {
                         if (title.equals("数据统计表格")){
                             startActivity(new Intent(SystemCenterActivity.this,TableDataActivity.class));
                         }else if (title.equals("数据历史折线")){
-                            startActivity(new Intent(SystemCenterActivity.this,HistoryLineDataActivity.class));
+                            startActivity(new Intent(SystemCenterActivity.this, HistoryLineChartActivity.class));
                         }else if (title.equals("数据实时折线")){
-                            ToastUtil.toastShow(title,SystemCenterActivity.this);
+                            Intent intent = new Intent();
+                            intent.setClass(SystemCenterActivity.this, NowLineDataActivity.class);
+                            intent.putExtra("title_group",makeGroupData().get(groupPosition).getGroupTitleName());
+                            intent.putExtra("title_child",makeGroupData().get(groupPosition).getGroupData().get(childPosition).getDataTitle());
+                            startActivity(intent);
                         }
                     }
                 }).showBottomPopDialog();
@@ -119,24 +124,19 @@ public class SystemCenterActivity extends Base_TitleBar_Activity {
     public List<TitleName> makeGroupData() {
         List<TitleName> groupTitleNameList = new ArrayList<>();
         List<TitleName.GroupDataBean> groupChildDataList = new ArrayList<>();
-        groupChildDataList.add(new TitleName.GroupDataBean("主轴承", 1));
-        groupChildDataList.add(new TitleName.GroupDataBean("齿轮箱一级行星级", 1));
-        groupChildDataList.add(new TitleName.GroupDataBean("齿轮箱二级行星级", 1));
-        groupChildDataList.add(new TitleName.GroupDataBean("齿轮箱输出级", 1));
-        groupChildDataList.add(new TitleName.GroupDataBean("发电机前轴承（驱动侧）", 1));
-        groupChildDataList.add(new TitleName.GroupDataBean("发电机后轴承（非驱动侧）", 1));
-        groupChildDataList.add(new TitleName.GroupDataBean("风塔摆动轴向", 1));
-        groupChildDataList.add(new TitleName.GroupDataBean("风塔摆动横向", 1));
-        groupTitleNameList.add(new TitleName("风机及塔筒在线状态监测与分析系统" , groupChildDataList));
-        groupTitleNameList.add(new TitleName("风机基础监测系统" , groupChildDataList));
-        groupTitleNameList.add(new TitleName("风机螺栓载荷在线监测报警系统" , groupChildDataList));
-        groupTitleNameList.add(new TitleName("风力发电机组桨叶状态监测系统" , groupChildDataList));
-        groupTitleNameList.add(new TitleName("风力发电机绝缘电阻自动监测装置系统" , groupChildDataList));
-        groupTitleNameList.add(new TitleName("风机齿轮箱润滑油油质在线监测系统" , groupChildDataList));
-        groupTitleNameList.add(new TitleName("风机雷电检测系统" , groupChildDataList));
-        groupTitleNameList.add(new TitleName("干式变运行状态监测系统" , groupChildDataList));
-        groupTitleNameList.add(new TitleName("风机视频辅控系统" , groupChildDataList));
-        groupTitleNameList.add(new TitleName("风机IP电话系统" , groupChildDataList));
+        for(int i=1;i<=36;i++){
+            groupChildDataList.add(new TitleName.GroupDataBean("风机"+i+"号", 1));
+        }
+        groupTitleNameList.add(new TitleName("风机及塔筒在线状态监测与分析系统",R.drawable.tatong , groupChildDataList));
+        groupTitleNameList.add(new TitleName("风机基础监测系统",R.drawable.jichu, groupChildDataList));
+        groupTitleNameList.add(new TitleName("风机螺栓载荷在线监测报警系统",R.drawable.luo_xuan , groupChildDataList));
+        groupTitleNameList.add(new TitleName("风机组桨叶状态监测系统" ,R.drawable.ye_pian, groupChildDataList));
+        groupTitleNameList.add(new TitleName("风机绝缘电阻自动监测装置系统",R.drawable.dianzu , groupChildDataList));
+        groupTitleNameList.add(new TitleName("风机齿轮箱润滑油油质在线监测系统",R.drawable.chikun , groupChildDataList));
+        groupTitleNameList.add(new TitleName("风机雷电检测系统",R.drawable.lei_dian , groupChildDataList));
+        groupTitleNameList.add(new TitleName("干式变运行状态监测系统",R.drawable.statue , groupChildDataList));
+        groupTitleNameList.add(new TitleName("风机视频辅控系统",R.drawable.vidio , groupChildDataList));
+        groupTitleNameList.add(new TitleName("风机IP电话系统" ,R.drawable.phone ,groupChildDataList));
         return groupTitleNameList;
     }
 

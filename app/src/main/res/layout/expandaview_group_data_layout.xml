@@ -12,19 +12,35 @@
         android:paddingLeft="30dp"
         android:paddingTop="5dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/table" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/ex_group_data_name"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/im_statue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/table" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:text="东安街看来丰富"
-            android:textSize="18sp" />
+            android:layout_weight="3">
+
+            <TextView
+                android:id="@+id/ex_group_data_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="#90000000"
+                android:text="东安街看来丰富"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>
