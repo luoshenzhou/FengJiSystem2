@@ -54,7 +54,7 @@ public class BottomPop {
         albumDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
-    String[] title=new String[]{"数据统计表格","数据历史折线","数据实时折线","取消"};
+    String[] title=new String[]{"实时数据监测","历史数据分析","取消"};
     private void setListener(View view) {
         ListView listView= (ListView) view.findViewById(R.id.lv_bottom);
         listView.setAdapter(new ArrayAdapter<String>(context,R.layout.bottom_spinner_layout, Arrays.asList(title)));

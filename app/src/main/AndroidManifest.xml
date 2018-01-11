@@ -22,8 +22,9 @@
         <activity android:name=".activity.MenuActivity" android:theme="@style/AppTheme1"/>
         <activity android:name=".activity.SystemCenterActivity" />
         <activity android:name=".activity.TableDataActivity" />
-        <activity android:name=".lineChart.HistoryLineChartActivity" />
+        <activity android:name=".activity.HistoryLineChartActivity" />
         <activity android:name=".activity.NowLineDataActivity" />
+        <activity android:name=".activity.NowDataActivity" />
     </application>
 
 </manifest>

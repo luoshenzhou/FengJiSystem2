@@ -1,4 +1,4 @@
-package com.haozhi.machinestatu.fengjisystem.lineChart;
+package com.haozhi.machinestatu.fengjisystem.chart.lineChart;
 
 import android.graphics.Color;
 
@@ -23,8 +23,8 @@ public class LineChartAxis_leGendManager {
      */
     public void changeLeftYAxis() {
         YAxis axisLeft = chart.getAxisLeft();
-        axisLeft.setEnabled(false);//设置隐藏不可用
-        axisLeft.setGranularity(0.1f);
+        axisLeft.setEnabled(true);//设置隐藏不可用
+        axisLeft.setTextColor(Color.WHITE);
     }
 
 

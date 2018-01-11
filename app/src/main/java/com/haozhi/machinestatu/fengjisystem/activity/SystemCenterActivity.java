@@ -13,9 +13,7 @@ import com.haozhi.machinestatu.fengjisystem.base.base_activity.Base_TitleBar_Act
 import com.haozhi.machinestatu.fengjisystem.bean.TitleName;
 import com.haozhi.machinestatu.fengjisystem.bottom.BottomPop;
 import com.haozhi.machinestatu.fengjisystem.bottom.BottomPopListener;
-import com.haozhi.machinestatu.fengjisystem.lineChart.HistoryLineChartActivity;
 import com.haozhi.machinestatu.fengjisystem.titlebar.TitleBar;
-import com.haozhi.machinestatu.fengjisystem.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,15 +98,19 @@ public class SystemCenterActivity extends Base_TitleBar_Activity {
 
                     @Override
                     public void chioce(String title, int position) {
-                        if (title.equals("数据统计表格")){
-                            startActivity(new Intent(SystemCenterActivity.this,TableDataActivity.class));
-                        }else if (title.equals("数据历史折线")){
+                        if (title.equals("实时数据监测")){
+                            //动态表格数据+动态折线图
+                            Intent intent = new Intent();
+                            intent.putExtra("title_group",makeGroupData().get(groupPosition).getGroupTitleName());
+                            intent.putExtra("title_child",makeGroupData().get(groupPosition).getGroupData().get(childPosition).getDataTitle());
+                            intent.setClass(SystemCenterActivity.this,NowDataActivity.class);
+                            intent.putExtra("title",makeGroupData().get(groupPosition).getGroupTitleName());
+                            startActivity(intent);
+                        }else if (title.equals("历史数据分析")){
                             startActivity(new Intent(SystemCenterActivity.this, HistoryLineChartActivity.class));
                         }else if (title.equals("数据实时折线")){
                             Intent intent = new Intent();
                             intent.setClass(SystemCenterActivity.this, NowLineDataActivity.class);
-                            intent.putExtra("title_group",makeGroupData().get(groupPosition).getGroupTitleName());
-                            intent.putExtra("title_child",makeGroupData().get(groupPosition).getGroupData().get(childPosition).getDataTitle());
                             startActivity(intent);
                         }
                     }
@@ -132,7 +134,7 @@ public class SystemCenterActivity extends Base_TitleBar_Activity {
         groupTitleNameList.add(new TitleName("风机螺栓载荷在线监测报警系统",R.drawable.luo_xuan , groupChildDataList));
         groupTitleNameList.add(new TitleName("风机组桨叶状态监测系统" ,R.drawable.ye_pian, groupChildDataList));
         groupTitleNameList.add(new TitleName("风机绝缘电阻自动监测装置系统",R.drawable.dianzu , groupChildDataList));
-        groupTitleNameList.add(new TitleName("风机齿轮箱润滑油油质在线监测系统",R.drawable.chikun , groupChildDataList));
+        groupTitleNameList.add(new TitleName("风机齿轮箱润滑油油质在线监测系统",R.drawable.chilun , groupChildDataList));
         groupTitleNameList.add(new TitleName("风机雷电检测系统",R.drawable.lei_dian , groupChildDataList));
         groupTitleNameList.add(new TitleName("干式变运行状态监测系统",R.drawable.statue , groupChildDataList));
         groupTitleNameList.add(new TitleName("风机视频辅控系统",R.drawable.vidio , groupChildDataList));

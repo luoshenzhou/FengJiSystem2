@@ -136,7 +136,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/login_button_selector"
                     android:text="登录"
-                    android:textColor="#80000000" />
+                    android:textColor="@color/login_button_textcolor" />
             </RelativeLayout>
 
             <!--记住/忘记密码-->

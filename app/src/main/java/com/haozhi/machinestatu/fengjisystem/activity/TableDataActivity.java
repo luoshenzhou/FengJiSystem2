@@ -1,6 +1,5 @@
 package com.haozhi.machinestatu.fengjisystem.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,16 +9,17 @@ import android.widget.ListView;
 import com.haozhi.machinestatu.fengjisystem.R;
 import com.haozhi.machinestatu.fengjisystem.adapter.TotalDevActivity_Adapter;
 import com.haozhi.machinestatu.fengjisystem.base.base_activity.Base_TitleBar_Activity;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiBaseData;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiDianZuData;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiLuioXuanData;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiRunHuaData;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiTaTongData;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiYePianData;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.TableData;
 import com.haozhi.machinestatu.fengjisystem.titlebar.TitleBar;
 import com.haozhi.machinestatu.fengjisystem.utils.DataUtil;
-import com.haozhi.machinestatu.fengjisystem.utils.DateUtil;
-
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -28,7 +28,6 @@ import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import sysu.zyb.panellistlibrary.PanelListLayout;
 
 /**
@@ -42,10 +41,13 @@ public class TableDataActivity extends Base_TitleBar_Activity {
     @Bind(R.id.id_pl_root)
     PanelListLayout panelListLayout;
     //列标题
-    private String[] rowTitle = new String[]{"测点位置", "安装方式","日期", "数据"};
+    private String[] rowTitle;
+    //表格数据
+    List<Map<String,String>> listData=new ArrayList<>();
+    //每一列的宽度
+    List<Integer> columnWidthList=new ArrayList<>();
+    TableData tableData = null;
     private TotalDevActivity_Adapter myTotalAdapter;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,41 +75,47 @@ public class TableDataActivity extends Base_TitleBar_Activity {
     protected boolean leftButton() {
         return true;
     }
-    List<Map<String,String>> listData=new ArrayList<>();
-    private void initData() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-        String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
-        Random random=new Random();
-        int  itemCount=rowTitle.length+1;
-        int nextInt = getCeDian().size();
-        for (int i = 0; i < nextInt; i++) {//多少行
-            Map<String, String> map = new HashMap<>();
-            for (int j = 0; j < itemCount; j++) {//多少列
-                if (j==itemCount-2){
-                    map.put((j) + "",date);
-                }else if(j==1){
-                    map.put(j+"",getCeDian().get(i));
-                }else if(j==2){
-                    map.put(j+"",getInStallStyle().get(i));
-                } else {
-                    map.put((j) + "", DataUtil.getPointDataByFloat(random.nextFloat() * 5 + 24));
-                }
-            }
-            listData.add(map);
-        }
 
+    /**
+     * 1、表格列的宽度
+     * 2、表格列的标题
+     * 3、表格的每一列的数据
+     */
+    private void initData() {
+        //组标题
+        String title = getIntent().getStringExtra("title");
+        if (title.equals(TableData.TA_TONG_TAG)){
+            tableData=new FengJiTaTongData();
+        }else if (title.equals(TableData.BASE_TAG)){
+            tableData=new FengJiBaseData();
+        }else if (title.equals(TableData.LUO_XUAN_TAG)){
+            tableData=new FengJiLuioXuanData();
+        }else if (title.equals(TableData.YE_PIAN_TAG)){
+            tableData=new FengJiYePianData();
+        }else if (title.equals(TableData.DIAN_ZU_TAG)){
+            tableData=new FengJiDianZuData();
+        }else if (title.equals(TableData.RUN_HUA_TAG)){
+            tableData=new FengJiRunHuaData();
+        }else {
+            throw new RuntimeException("没有对应的TAG--"+title);
+        }
+        initTable(tableData);
+    }
+
+    private void initTable(TableData tableData) {
+        listData=tableData.getListData();
+        columnWidthList=tableData.getColumnWidth();
+        rowTitle=tableData.getRowTitle();
+        setAdapter(listData,columnWidthList,rowTitle);
+    }
+
+    private void setAdapter(List<Map<String, String>> listData, List<Integer> rowTitleWidthlist, String[] rowTitle) {
         if (myTotalAdapter == null) {
             myTotalAdapter = new TotalDevActivity_Adapter(this, panelListLayout, lv_content);
             myTotalAdapter.setData(listData);
             myTotalAdapter.initListViewAdapter(80, 180, Arrays.asList(rowTitle), null);
-            List<Integer> list=new ArrayList<>();
-            list.add(300);
-            list.add(150);
-            list.add(500);
-            list.add(150);
-            list.add(150);
             //设置每一列的宽度
-            myTotalAdapter.setcolumnWidth(list);
+            myTotalAdapter.setcolumnWidth(rowTitleWidthlist);
         } else {
             updateAdapter();
         }
@@ -121,44 +129,7 @@ public class TableDataActivity extends Base_TitleBar_Activity {
         adapter.notifyDataSetChanged();
     }
 
-    public List<String> getCeDian(){
-        List<String> list=new ArrayList<>();
-        list.add("主轴承");
-        list.add("齿轮箱一级行星级");
-        list.add("齿轮箱二级行星级");
-        list.add("齿轮箱输出级");
-        list.add("发电机前轴承（驱动侧）");
-        list.add("发电机后轴承（非驱动侧）");
-        list.add("风塔摆动轴向");
-        list.add("风塔摆动横向");
-        return list;
-    }
 
-        public List<String> getInStallStyle(){
-        List<String> list=new ArrayList<>();
-        list.add("径向");
-        list.add("径向");
-        list.add("径向");
-        list.add("轴向");
-        list.add("径向");
-        list.add("径向");
-        list.add("轴向");
-        list.add("横向");
-        return list;
-    }
-
-    public List<String> getChuanGanQi(){
-        List<String> list=new ArrayList<>();
-        list.add("低频加速度传感器");
-        list.add("低频加速度传感器");
-        list.add("普通加速度传感器");
-        list.add("普通加速度传感器");
-        list.add("普通加速度传感器");
-        list.add("普通加速度传感器");
-        list.add("风塔摆动监测传感器");
-        list.add("风塔摆动监测传感器");
-        return list;
-    }
 
 
     @Override
@@ -171,25 +142,24 @@ public class TableDataActivity extends Base_TitleBar_Activity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            changeData();
+            changeData(tableData.getChangeColumn());
             updateAdapter();
         }
     };
 
     Random random=new Random();
-    private void changeData() {
-        int  itemCount=rowTitle.length+1;
-        int size = listData.get(0).size();
-        //Map<String, String> map = listData.get(size - 1);
-        /*Map<String, String> changeMap = new HashMap<>();
-        for (Map.Entry<String,String> entry:map.entrySet()){
-            changeMap.put(entry.getKey(),(random.nextFloat()*5+24+""));
-        }
-        listData.set(size-1,changeMap);*/
-        for (int i=0;i<listData.size();i++){
-            Map<String, String> map = listData.get(i);
-            String key = (itemCount - 1) + "";
-            map.put(key, DataUtil.getPointDataByFloat(random.nextFloat() * 5 + 24));
+    private void changeData(String[] key) {
+        if (key!=null){
+            int length = key.length;
+            for (int i=0;i<listData.size();i++){
+                Map<String, String> map = listData.get(i);
+                for (int j=0;j<length;j++){
+                    String keyName =key[j];//多个ke
+                    map.put(keyName, DataUtil.getPointDataByFloat(random.nextFloat() * 5 + 24));
+                }
+            }
+        }else {
+            throw new RuntimeException("要修改的字段的数组为空");
         }
     }
 

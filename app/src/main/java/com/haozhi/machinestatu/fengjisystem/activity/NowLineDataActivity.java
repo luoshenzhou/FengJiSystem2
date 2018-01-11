@@ -15,7 +15,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.haozhi.machinestatu.fengjisystem.R;
 import com.haozhi.machinestatu.fengjisystem.base.base_activity.Base_TitleBar_Activity;
-import com.haozhi.machinestatu.fengjisystem.lineChart.LineChartAxis_leGendManager;
+import com.haozhi.machinestatu.fengjisystem.chart.lineChart.LineChartAxis_leGendManager;
 import com.haozhi.machinestatu.fengjisystem.titlebar.TitleBar;
 
 import java.util.ArrayList;

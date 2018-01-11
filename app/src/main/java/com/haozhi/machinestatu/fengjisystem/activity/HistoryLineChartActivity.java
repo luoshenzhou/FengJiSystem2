@@ -1,4 +1,4 @@
-package com.haozhi.machinestatu.fengjisystem.lineChart;
+package com.haozhi.machinestatu.fengjisystem.activity;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,6 +26,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.haozhi.machinestatu.fengjisystem.R;
 import com.haozhi.machinestatu.fengjisystem.base.base_activity.Base_TitleBar_Activity;
+import com.haozhi.machinestatu.fengjisystem.chart.lineChart.Model;
+import com.haozhi.machinestatu.fengjisystem.chart.lineChart.StockListBean;
 import com.haozhi.machinestatu.fengjisystem.titlebar.TitleBar;
 
 import java.text.NumberFormat;

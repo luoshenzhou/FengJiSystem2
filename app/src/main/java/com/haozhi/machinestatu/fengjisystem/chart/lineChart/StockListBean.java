@@ -1,4 +1,4 @@
-package com.haozhi.machinestatu.fengjisystem.lineChart;
+package com.haozhi.machinestatu.fengjisystem.chart.lineChart;
 
 import java.util.List;
 

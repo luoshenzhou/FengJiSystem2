@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <FrameLayout
-            android:background="@drawable/bg_circle"
+            android:background="@color/login_bg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <RelativeLayout
