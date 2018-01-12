@@ -38,6 +38,12 @@ public class BottomPop {
         this.listener = listener;
     }
 
+    public BottomPop(Context context, BottomPopListener listener,String[] title) {
+        this.context = context;
+        this.listener = listener;
+        this.title=title;
+    }
+
     AlertDialog albumDialog;
 
     public void showBottomPopDialog() {

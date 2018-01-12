@@ -24,9 +24,7 @@
             >
             <RadioButton
                 android:id="@+id/rb_table"
-                android:background="@drawable/radio_button_selector"
-                android:textColor="@color/radiobutton_textcolor"
-                android:button="@null"
+                style="@style/radioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="实时表格"

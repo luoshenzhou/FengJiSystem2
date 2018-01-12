@@ -19,6 +19,10 @@ public abstract class TableData {
     public static final String YE_PIAN_TAG="风机组桨叶状态监测系统";
     public static final String DIAN_ZU_TAG="风机绝缘电阻自动监测装置系统";
     public static final String RUN_HUA_TAG="风机齿轮箱润滑油油质在线监测系统";
+    public static final String LEI_JI_TAG="风机雷电检测系统";
+    public static final String GAN_SHI_BIAN_TAG="干式变运行状态监测系统";
+    public static final String VIDIO_TAG="风机视频辅控系统";
+    public static final String IP_PHONE_TAG="风机IP电话系统";
 
 
     public abstract String[] getRowTitle();

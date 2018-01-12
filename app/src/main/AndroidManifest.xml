@@ -25,6 +25,9 @@
         <activity android:name=".activity.HistoryLineChartActivity" />
         <activity android:name=".activity.NowLineDataActivity" />
         <activity android:name=".activity.NowDataActivity" />
+        <activity android:name=".activity.HistoryDataActivity" />
+        <activity android:name=".vidio.HistoryVidioActivity" />
+        <activity android:name=".vidio.NowVidioActivity" />
     </application>
 
 </manifest>

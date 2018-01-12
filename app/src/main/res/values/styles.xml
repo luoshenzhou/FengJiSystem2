@@ -39,4 +39,11 @@
     </style>
 
 
+    <style name="radioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:background">@drawable/radio_button_selector</item>
+        <item name="android:textColor">@color/radiobutton_textcolor</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.haozhi.machinestatu.fengjisystem.R;
 import com.haozhi.machinestatu.fengjisystem.base.base_activity.Base_TitleBar_Activity;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.TableData;
+import com.haozhi.machinestatu.fengjisystem.nowDataFragment.LeiJiLineFragment;
 import com.haozhi.machinestatu.fengjisystem.nowDataFragment.LineFragment;
 import com.haozhi.machinestatu.fengjisystem.nowDataFragment.TableFragment;
 import com.haozhi.machinestatu.fengjisystem.titlebar.TitleBar;
@@ -42,7 +44,7 @@ public class NowDataActivity extends Base_TitleBar_Activity implements CompoundB
     TextView tvChild;
 
     private Fragment tableFragment=new TableFragment();
-    private Fragment lineFragment=new LineFragment();
+    private Fragment lineFragment;
     private FragmentManager fragmentManager;
 
     @Override
@@ -79,6 +81,11 @@ public class NowDataActivity extends Base_TitleBar_Activity implements CompoundB
         }
         if (!TextUtils.isEmpty(title_child)) {
             tvChild.setText("当前风机："+title_child);
+        }
+        if (title_group.equals(TableData.LEI_JI_TAG)){
+            lineFragment=new LeiJiLineFragment();
+        }else {
+            lineFragment=new LineFragment();
         }
         initData();
         initEvent();
@@ -140,10 +147,15 @@ public class NowDataActivity extends Base_TitleBar_Activity implements CompoundB
         if (isChecked) {
             switch (view.getId()) {
                 case R.id.rb_line:
+                    if (lineFragment instanceof LeiJiLineFragment){
+
+                    }else {
+                        List<String> list = ((TableFragment) tableFragment).getCeDianList();
+                        ((LineFragment) lineFragment).setData(list);
+                    }
                     setFragment(lineFragment, line);
                     rbLine.setChecked(true);
-                    List<String> list = ((TableFragment) tableFragment).getCeDianList();
-                    ((LineFragment) lineFragment).setData(list);
+
                     break;
                 case R.id.rb_table:
                     setFragment(tableFragment, table);

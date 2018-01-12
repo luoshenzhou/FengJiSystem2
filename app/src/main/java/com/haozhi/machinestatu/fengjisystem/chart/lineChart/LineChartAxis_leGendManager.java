@@ -52,5 +52,6 @@ public class LineChartAxis_leGendManager {
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X坐标轴的位置
         xAxis.setDrawGridLines(false);//设置X的背景线也不画
+        xAxis.setLabelsToSkip(1);
     }
 }

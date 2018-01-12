@@ -11,34 +11,37 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Created by LSZ on 2018/1/11.
+ * Created by LSZ on 2018/1/12.
  */
-public class FengJiRunHuaData extends TableData {
+public class FengJiLeiDianData extends TableData {
+
+    String[] ceDian=new String[]{"雷电检测仪"};
 
     @Override
     public String[] getRowTitle() {
-        return new String[]{"项目","日期","颗粒数","介质常数"};
+        return new String[]{"测点","日期","数据"};
     }
 
     @Override
     public List<Map<String, String>> getListData() {
-        List<Map<String,String>> listData=new ArrayList<>();
+        List<Map<String, String>> listData = new ArrayList<>();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
-        Random random=new Random();
-        int  itemCount=getRowTitle().length;
+        Random random = new Random();
+        int itemCount = getRowTitle().length;
+        for (int i = 0; i <ceDian.length; i++) {//多少行
             Map<String, String> map = new HashMap<>();
-            for (int i=0;i<itemCount;i++){
-                if (i==1){
-                    map.put((i) + "","润滑剂");
-                }else if (i==2){
-                    map.put((i) + "",date);
-                }else {
-                    map.put((i) + "", DataUtil.getPointDataByFloat(random.nextFloat() * 5 + 24));
+            for (int j = 0; j < itemCount; j++) {//多少列
+                if (j == 1) {
+                    map.put((j) + "", ceDian[i]);
+                } else if (j == 2) {
+                    map.put((j) + "", date);
+                } else {
+                    map.put((j) + "", DataUtil.getPointDataByFloat(random.nextFloat() * 5 + 24));
                 }
             }
             listData.add(map);
-
+        }
         return listData;
     }
 
@@ -48,12 +51,11 @@ public class FengJiRunHuaData extends TableData {
         list.add(150);
         list.add(500);
         list.add(150);
-        list.add(150);
         return list;
     }
 
     @Override
     public String[] getChangeColumn() {
-        return new String[]{"3","4"};
+        return new String[]{"3"};
     }
 }

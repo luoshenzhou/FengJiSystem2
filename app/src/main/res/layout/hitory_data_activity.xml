@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--标题-->
+    <include
+        layout="@layout/titlebar_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!--布局-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--折线图-->
+            <RadioGroup
+                android:layout_margin="5dp"
+                android:background="@drawable/rg_shape"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="72小时" />
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="当日" />
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="当月" />
+            </RadioGroup>
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart_line"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
+
+            <!--柱状图-->
+            <RadioGroup
+                android:layout_margin="5dp"
+                android:background="@drawable/rg_shape"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="72小时" />
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="当日" />
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="当月" />
+            </RadioGroup>
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart_bar"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
+
+            <!--饼状图-->
+            <RadioGroup
+                android:layout_margin="5dp"
+                android:background="@drawable/rg_shape"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="72小时" />
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="当日" />
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="当月" />
+            </RadioGroup>
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chart_pie"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

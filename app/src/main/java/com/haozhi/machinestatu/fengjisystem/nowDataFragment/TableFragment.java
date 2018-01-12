@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.haozhi.machinestatu.fengjisystem.R;
 import com.haozhi.machinestatu.fengjisystem.adapter.TotalDevActivity_Adapter;
 import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiBaseData;
 import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiDianZuData;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiGanShiBianData;
+import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiLeiDianData;
 import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiLuioXuanData;
 import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiRunHuaData;
 import com.haozhi.machinestatu.fengjisystem.chart.tableChart.FengJiTaTongData;
@@ -40,7 +43,7 @@ import sysu.zyb.panellistlibrary.PanelListLayout;
 public class TableFragment extends Fragment {
 
 
-
+    private static final String TAG = TableFragment.class.getSimpleName();
     @Bind(R.id.lv_content)
     ListView lv_content;
     @Bind(R.id.id_pl_root)
@@ -96,8 +99,14 @@ public class TableFragment extends Fragment {
             tableData=new FengJiDianZuData();
         }else if (title.equals(TableData.RUN_HUA_TAG)){
             tableData=new FengJiRunHuaData();
+        }else if (title.equals(TableData.GAN_SHI_BIAN_TAG)){
+            tableData=new FengJiGanShiBianData();
+        }else if (title.equals(TableData.LEI_JI_TAG)){
+            tableData=new FengJiLeiDianData();
         }else {
-            throw new RuntimeException("没有对应的TAG--"+title);
+            //throw new RuntimeException("没有对应的TAG--"+title);
+            Log.e(TAG,"没有对应的TAG--"+title+"，默认显示风机塔筒");
+            tableData=new FengJiTaTongData();
         }
         initTable(tableData);
     }
